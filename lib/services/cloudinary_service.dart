@@ -26,17 +26,42 @@ class CloudinaryService {
         data: formData,
       );
 
-      if (response.statusCode == 200) {
-        final data = response.data;
-
-        if (data != null && data["secure_url"] != null) {
-          return data["secure_url"] as String;
-        }
+      if (response.statusCode == 200 &&
+          response.data["secure_url"] != null) {
+        return response.data["secure_url"];
       }
 
       return null;
     } catch (e) {
-      print("Cloudinary upload error: $e");
+      print("Cloudinary image upload error: $e");
+      return null;
+    }
+  }
+
+  Future<String?> uploadAudio(String audioPath) async {
+    try {
+      final String url =
+          "https://api.cloudinary.com/v1_1/$cloudName/video/upload";
+
+      final FormData formData = FormData.fromMap({
+        "file": await MultipartFile.fromFile(audioPath),
+        "resource_type": "video",
+        "upload_preset": uploadPreset,
+      });
+
+      final Response response = await _dio.post(
+        url,
+        data: formData,
+      );
+
+      if (response.statusCode == 200 &&
+          response.data["secure_url"] != null) {
+        return response.data["secure_url"];
+      }
+
+      return null;
+    } catch (e) {
+      print("Cloudinary audio upload error: $e");
       return null;
     }
   }
