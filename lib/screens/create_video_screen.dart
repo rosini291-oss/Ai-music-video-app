@@ -1,3 +1,4 @@
+
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
@@ -40,9 +41,9 @@ class _CreateVideoScreenState extends State<CreateVideoScreen> {
       type: FileType.audio,
     );
 
-    if (result != null) {
+    if (result != null && result.files.single.path != null) {
       setState(() {
-        musicPath = result.files.single.path;
+        musicPath = result.files.single.path!;
       });
     }
   }
@@ -57,12 +58,31 @@ class _CreateVideoScreenState extends State<CreateVideoScreen> {
       return;
     }
 
-    await aiService.generateVideo(
-      imageUrl: "https://example.com/image.jpg",
+    if (musicPath == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Please select a music file."),
+        ),
+      );
+      return;
+    }
+
+    final videoUrl = await aiService.generateVideo(
+      imagePath: selectedImage!.path,
+      musicPath: musicPath!,
       prompt: promptController.text,
     );
 
     if (!mounted) return;
+
+    if (videoUrl == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Video generation failed."),
+        ),
+      );
+      return;
+    }
 
     Navigator.push(
       context,
@@ -93,7 +113,6 @@ class _CreateVideoScreenState extends State<CreateVideoScreen> {
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
-
             GestureDetector(
               onTap: pickImage,
               child: Container(

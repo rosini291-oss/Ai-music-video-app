@@ -29,7 +29,8 @@ class _VideoGenerationScreenState extends State<VideoGenerationScreen> {
     final ai = AIService();
 
     final videoUrl = await ai.generateVideo(
-      imageUrl: widget.imagePath,
+      imagePath: widget.imagePath,
+      musicPath: "", // për momentin
       prompt: widget.prompt,
     );
 
