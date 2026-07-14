@@ -1,0 +1,48 @@
+name: video_app
+
+description: AI Video Studio
+
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.7.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.8
+
+  # Media
+  image_picker: ^1.1.2
+  file_picker: ^8.3.7
+  video_player: ^2.11.1
+
+  # Network
+  http: ^1.2.2
+  dio: ^5.8.0+1
+
+  # Storage
+  shared_preferences: ^2.5.3
+  path_provider: ^2.1.5
+
+  # Download & Share
+  share_plus: ^12.0.2
+  gallery_saver_plus: ^3.2.7
+
+  # Cache
+  flutter_cache_manager: ^3.4.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/videos/sample_video.mp4

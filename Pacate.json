@@ -1,0 +1,25 @@
+{
+  "name": "ai-music-video-backend",
+  "version": "1.0.0",
+  "description": "AI Music Video Backend using Replicate",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [
+    "ai",
+    "video",
+    "replicate",
+    "music"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.11.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0",
+    "multer": "^2.0.2"
+  }
+}
