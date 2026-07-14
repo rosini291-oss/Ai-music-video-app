@@ -1,36 +1,43 @@
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:dio/dio.dart';
 
 class CloudinaryService {
-  static const cloudName = "bi4ytlzp";
-  static const uploadPreset = "video_app";
+  static const String cloudName = "bi4ytlzp";
+  static const String uploadPreset = "video_app";
+
+  final Dio _dio = Dio(
+    BaseOptions(
+      connectTimeout: const Duration(seconds: 30),
+      receiveTimeout: const Duration(minutes: 2),
+    ),
+  );
 
   Future<String?> uploadImage(String imagePath) async {
     try {
-      final url =
+      final String url =
           "https://api.cloudinary.com/v1_1/$cloudName/image/upload";
 
-      FormData data = FormData.fromMap({
+      final FormData formData = FormData.fromMap({
         "file": await MultipartFile.fromFile(imagePath),
         "upload_preset": uploadPreset,
       });
 
-      final response = await Dio().post(
+      final Response response = await _dio.post(
         url,
-        data: data,
+        data: formData,
       );
 
       if (response.statusCode == 200) {
-        return response.data["secure_url"];
+        final data = response.data;
+
+        if (data != null && data["secure_url"] != null) {
+          return data["secure_url"] as String;
+        }
       }
 
       return null;
     } catch (e) {
-      print(e);
+      print("Cloudinary upload error: $e");
       return null;
     }
-
   }
 }
